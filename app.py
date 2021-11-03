@@ -4,23 +4,23 @@ import random
 from datetime import datetime
 import time
 
-random.seed(datetime.now())
-level = 4
+random.seed(datetime.now()) #設定隨機種子
+level = 0 #等級
 ARR_matrixSize = [3, 4, 5, 6, 7] #方陣大小
-ARR_quizMove = [15, 30, 60, 105, 165]
-matrixSize = ARR_matrixSize[level] #方陣大小
+ARR_quizMove = [15, 30, 60, 105, 165] #題目移動次數
+matrixSize = ARR_matrixSize[level]
 quizMove = ARR_quizMove[level]
-moveTimes = 0
-QUIZ_Matrix = []
-GOAL_Matrix = []
+moveTimes = 0 #使用者移動次數
+QUIZ_Matrix = [] #題目
+GOAL_Matrix = [] #答案
 
-def swap(a, b):
+def swap(a, b): #內容互換
 	t=a
 	a=b
 	b=t
 	return a, b
 
-def arraySame(arr_a, arr_b):
+def arraySame(arr_a, arr_b): #判斷兩陣列是否相同
 	if len(arr_a) != len(arr_b):
 		return False
 	for i in range(len(arr_a)):
@@ -66,9 +66,9 @@ def moveMatrix(action, matrix): #移動華容道方塊
 	else:
 		return False, matrix
 
-def makeQuizMatrix(move, matrix):
+def makeQuizMatrix(move, matrix): #產生華容道題目
 	ACT = ['up', 'down', 'left', 'right']
-	RM = ['down', 'up', 'right', 'left']
+	RM = ['down', 'up', 'right', 'left'] #相對應項目
 	action = ACT.copy()
 	while move != 0:
 		idx = int(random.random()*len(action))
@@ -77,10 +77,10 @@ def makeQuizMatrix(move, matrix):
 		if success:
 			move -= 1
 			action = ACT.copy()
-			rmAction = RM[action.index(mov)]
+			rmAction = RM[action.index(mov)] #找出要去除的項目(避免原地打轉)
 			action.pop(action.index(rmAction))
 		else:
-			action.pop(idx)
+			action.pop(idx) #去除試過的項目
 	return matrix
 
 def showMatrix(matrix): #顯示華容道
@@ -112,10 +112,14 @@ print("================================")
 print("Use 'Arrow keys' to moving block")
 print("  Press 'q' to leave this game. ")
 print("================================")
-QUIZ_Matrix = makeQuizMatrix(quizMove, QUIZ_Matrix)
-showMatrix(QUIZ_Matrix)
+
+# 前置作業
+QUIZ_Matrix = makeQuizMatrix(quizMove, QUIZ_Matrix) #產生題目
+showMatrix(QUIZ_Matrix) # 顯示題目
 startTime = datetime.now()
 isFinish = True
+
+# 開始遊戲
 while not arraySame(QUIZ_Matrix, GOAL_Matrix):
 	key = keyboard.read_key()
 	success, QUIZ_Matrix = moveMatrix(key, QUIZ_Matrix)
@@ -127,6 +131,8 @@ while not arraySame(QUIZ_Matrix, GOAL_Matrix):
 	if keyboard.read_key() == "q":
 		isFinish = False
 		break
+
+# 結算
 endTime = datetime.now()
 time_s = (endTime - startTime).seconds
 time_ms = (endTime - startTime).microseconds
