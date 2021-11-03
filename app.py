@@ -1,8 +1,15 @@
 # 數字華容道 Klotski
-
 import keyboard
+import random
+from datetime import datetime
+import time
 
-matrixSize = 4 #方陣大小
+random.seed(datetime.now())
+level = 4
+ARR_matrixSize = [3, 4, 5, 6, 7] #方陣大小
+ARR_quizMove = [15, 30, 60, 105, 165]
+matrixSize = ARR_matrixSize[level] #方陣大小
+quizMove = ARR_quizMove[level]
 moveTimes = 0
 QUIZ_Matrix = []
 GOAL_Matrix = []
@@ -12,6 +19,14 @@ def swap(a, b):
 	a=b
 	b=t
 	return a, b
+
+def arraySame(arr_a, arr_b):
+	if len(arr_a) != len(arr_b):
+		return False
+	for i in range(len(arr_a)):
+		if arr_a[i] != arr_b[i]:
+			return False
+	return True
 
 def num2FormatStr(digits, prefix, num): #數字轉含前綴字串
 	result = str(num)
@@ -51,6 +66,23 @@ def moveMatrix(action, matrix): #移動華容道方塊
 	else:
 		return False, matrix
 
+def makeQuizMatrix(move, matrix):
+	ACT = ['up', 'down', 'left', 'right']
+	RM = ['down', 'up', 'right', 'left']
+	action = ACT.copy()
+	while move != 0:
+		idx = int(random.random()*len(action))
+		mov = action[idx]
+		success, matrix = moveMatrix(mov, matrix)
+		if success:
+			move -= 1
+			action = ACT.copy()
+			rmAction = RM[action.index(mov)]
+			action.pop(action.index(rmAction))
+		else:
+			action.pop(idx)
+	return matrix
+
 def showMatrix(matrix): #顯示華容道
 	global matrixSize
 	digits = len(str(max(matrix)))
@@ -80,12 +112,27 @@ print("================================")
 print("Use 'Arrow keys' to moving block")
 print("  Press 'q' to leave this game. ")
 print("================================")
+QUIZ_Matrix = makeQuizMatrix(quizMove, QUIZ_Matrix)
 showMatrix(QUIZ_Matrix)
-while keyboard.read_key() != "q":
+startTime = datetime.now()
+isFinish = True
+while not arraySame(QUIZ_Matrix, GOAL_Matrix):
 	key = keyboard.read_key()
 	success, QUIZ_Matrix = moveMatrix(key, QUIZ_Matrix)
 	if success:
 		moveTimes += 1
 	print("Moves:", moveTimes)
 	showMatrix(QUIZ_Matrix)
-    
+
+	if keyboard.read_key() == "q":
+		isFinish = False
+		break
+endTime = datetime.now()
+time_s = (endTime - startTime).seconds
+time_ms = (endTime - startTime).microseconds
+fullsec = time_s + float(str("0.%d" %(time_ms)))
+if isFinish:
+	print("Congratulation! you move %d times to finish this game." %(moveTimes))
+else:
+	print("You are not finish yet!")
+print('Spend Time (sec):', "%.3fms" %(fullsec))
