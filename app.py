@@ -6,6 +6,7 @@ import time
 
 random.seed(datetime.now()) #設定隨機種子
 level = 0 #等級
+levelName = ['Easy', 'Normal', 'Difficult', 'Hard', 'Expert']
 ARR_matrixSize = [3, 4, 5, 6, 7] #方陣大小
 ARR_quizMove = [15, 30, 60, 105, 165] #題目移動次數
 matrixSize = ARR_matrixSize[level]
@@ -105,7 +106,6 @@ def showMatrix(matrix): #顯示華容道
 			print(" %s |" %(numstr), end="")
 	print(bordLine)
 
-createMatrix(matrixSize)
 print("================================")
 print("==  Welcome to play Klotski!  ==")
 print("================================")
@@ -113,8 +113,24 @@ print("Use 'Arrow keys' to moving block")
 print("  Press 'q' to leave this game. ")
 print("================================")
 
+try:
+	inputSize = input("Which Klotski's level would you want to play?(1~5):")
+	if int(inputSize) > 0 and int(inputSize) <=5:
+		level = int(inputSize)-1
+		print("OK! Klotski's level will set '%s'." %(levelName[level]))
+	else:
+		print("Out of range! Klotski's level will set '%s'." %(levelName[level]))
+except:
+	print("Keyin error! Klotski's level will set '%s'." %(levelName[level]))
+print("================================")
+
+matrixSize = ARR_matrixSize[level]
+quizMove = ARR_quizMove[level]
+createMatrix(matrixSize)
+
 # 前置作業
 QUIZ_Matrix = makeQuizMatrix(quizMove, QUIZ_Matrix) #產生題目
+print("== GAME START ==")
 showMatrix(QUIZ_Matrix) # 顯示題目
 startTime = datetime.now()
 isFinish = True
