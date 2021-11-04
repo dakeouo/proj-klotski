@@ -1,5 +1,5 @@
 # 數字華容道 Klotski
-import keyboard
+from pynput import keyboard
 import random
 from datetime import datetime
 import time
@@ -11,9 +11,41 @@ ARR_matrixSize = [3, 4, 5, 6, 7] #方陣大小
 ARR_quizMove = [15, 30, 60, 105, 165] #題目移動次數
 matrixSize = ARR_matrixSize[level]
 quizMove = ARR_quizMove[level]
-moveTimes = 0 #使用者移動次數
 QUIZ_Matrix = [] #題目
 GOAL_Matrix = [] #答案
+GAME_FINISH = False #遊戲是否完成
+GAME_TIMES = 0 #使用者移動次數
+
+def keyboardPress(key): #偵測按鍵按下
+	global QUIZ_Matrix, GOAL_Matrix, GAME_TIMES, GAME_FINISH
+	try:
+		KEYBOARD_INUT = key.char
+	except AttributeError: # 特殊按鍵
+		KEYBOARD_INUT = key
+	if KEYBOARD_INUT == keyboard.Key.up:
+		success, QUIZ_Matrix = moveMatrix("up", QUIZ_Matrix)
+	elif KEYBOARD_INUT == keyboard.Key.down:
+		success, QUIZ_Matrix = moveMatrix("down", QUIZ_Matrix)
+	elif KEYBOARD_INUT == keyboard.Key.left:
+		success, QUIZ_Matrix = moveMatrix("left", QUIZ_Matrix)
+	elif KEYBOARD_INUT == keyboard.Key.right:
+		success, QUIZ_Matrix = moveMatrix("right", QUIZ_Matrix)
+	else:
+		success = False
+	if success:
+		GAME_TIMES += 1
+	print("Moves:", GAME_TIMES)
+	showMatrix(QUIZ_Matrix)
+	
+	if arraySame(QUIZ_Matrix, GOAL_Matrix):
+		GAME_FINISH = True
+		return False
+
+def keyboardRelease(key): #偵測按鍵放開
+	global GAME_FINISH
+	if key == keyboard.Key.esc:
+		GAME_FINISH = False
+		return False
 
 def swap(a, b): #內容互換
 	t=a
@@ -110,7 +142,7 @@ print("================================")
 print("==  Welcome to play Klotski!  ==")
 print("================================")
 print("Use 'Arrow keys' to moving block")
-print("  Press 'q' to leave this game. ")
+print(" Press 'esc' to leave this game.")
 print("================================")
 
 try:
@@ -136,25 +168,18 @@ startTime = datetime.now()
 isFinish = True
 
 # 開始遊戲
-while not arraySame(QUIZ_Matrix, GOAL_Matrix):
-	key = keyboard.read_key()
-	success, QUIZ_Matrix = moveMatrix(key, QUIZ_Matrix)
-	if success:
-		moveTimes += 1
-	print("Moves:", moveTimes)
-	showMatrix(QUIZ_Matrix)
-
-	if keyboard.read_key() == "q":
-		isFinish = False
-		break
+with keyboard.Listener(
+        on_press=keyboardPress,
+        on_release=keyboardRelease) as listener:
+    listener.join()
 
 # 結算
 endTime = datetime.now()
 time_s = (endTime - startTime).seconds
 time_ms = (endTime - startTime).microseconds
 fullsec = time_s + float(str("0.%d" %(time_ms)))
-if isFinish:
-	print("Congratulation! you move %d times to finish this game." %(moveTimes))
+if GAME_FINISH:
+	print("Congratulation! you move %d times to finish this game." %(GAME_TIMES))
 else:
 	print("You are not finish yet!")
 print('Spend Time (sec):', "%.3fms" %(fullsec))
