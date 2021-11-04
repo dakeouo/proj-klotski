@@ -22,13 +22,13 @@ def keyboardPress(key): #偵測按鍵按下
 		KEYBOARD_INUT = key.char
 	except AttributeError: # 特殊按鍵
 		KEYBOARD_INUT = key
-	if KEYBOARD_INUT == keyboard.Key.up:
+	if KEYBOARD_INUT == 'w':
 		success, QUIZ_Matrix = moveMatrix("up", QUIZ_Matrix)
-	elif KEYBOARD_INUT == keyboard.Key.down:
+	elif KEYBOARD_INUT == 's':
 		success, QUIZ_Matrix = moveMatrix("down", QUIZ_Matrix)
-	elif KEYBOARD_INUT == keyboard.Key.left:
+	elif KEYBOARD_INUT == 'a':
 		success, QUIZ_Matrix = moveMatrix("left", QUIZ_Matrix)
-	elif KEYBOARD_INUT == keyboard.Key.right:
+	elif KEYBOARD_INUT == 'd':
 		success, QUIZ_Matrix = moveMatrix("right", QUIZ_Matrix)
 	else:
 		success = False
@@ -36,14 +36,18 @@ def keyboardPress(key): #偵測按鍵按下
 		GAME_TIMES += 1
 	print("Moves:", GAME_TIMES)
 	showMatrix(QUIZ_Matrix)
-	
+
 	if arraySame(QUIZ_Matrix, GOAL_Matrix):
 		GAME_FINISH = True
 		return False
 
 def keyboardRelease(key): #偵測按鍵放開
 	global GAME_FINISH
-	if key == keyboard.Key.esc:
+	try:
+		KEYBOARD_INUT = key.char
+	except AttributeError: # 特殊按鍵
+		KEYBOARD_INUT = key
+	if KEYBOARD_INUT == 'q':
 		GAME_FINISH = False
 		return False
 
@@ -138,12 +142,12 @@ def showMatrix(matrix): #顯示華容道
 			print(" %s |" %(numstr), end="")
 	print(bordLine)
 
-print("================================")
-print("==  Welcome to play Klotski!  ==")
-print("================================")
-print("Use 'Arrow keys' to moving block")
-print(" Press 'esc' to leave this game.")
-print("================================")
+print("===================================")
+print("==    Welcome to play Klotski!   ==")
+print("===================================")
+print("Use 'w','a','s','d' to moving block")
+print("   Press 'q' to leave this game.   ")
+print("===================================")
 
 try:
 	inputSize = input("Which Klotski's level would you want to play?(1~5):")
