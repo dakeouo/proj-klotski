@@ -1,5 +1,4 @@
 # 數字華容道 Klotski
-import keyboard
 import random
 from datetime import datetime
 import time
@@ -109,7 +108,7 @@ def showMatrix(matrix): #顯示華容道
 print("================================")
 print("==  Welcome to play Klotski!  ==")
 print("================================")
-print("Use 'Arrow keys' to moving block")
+print("  Use 'w/a/s/d' to moving block ")
 print("  Press 'q' to leave this game. ")
 print("================================")
 
@@ -134,17 +133,25 @@ print("== GAME START ==")
 showMatrix(QUIZ_Matrix) # 顯示題目
 startTime = datetime.now()
 isFinish = True
+TRANS_CHAR = {
+	'w':'up','s':'down','a':'left','d':'right', 
+	'W':'up','S':'down','A':'left','D':'right',
+}
 
 # 開始遊戲
 while not arraySame(QUIZ_Matrix, GOAL_Matrix):
-	key = keyboard.read_key()
-	success, QUIZ_Matrix = moveMatrix(key, QUIZ_Matrix)
+	key = input("Press key (char):")
+	try:
+		trans = TRANS_CHAR[str(key)]
+		success, QUIZ_Matrix = moveMatrix(trans, QUIZ_Matrix)
+	except:
+		success = False
 	if success:
 		moveTimes += 1
 	print("Moves:", moveTimes)
 	showMatrix(QUIZ_Matrix)
 
-	if keyboard.read_key() == "q":
+	if str(key) == "q" or str(key) == "Q":
 		isFinish = False
 		break
 
