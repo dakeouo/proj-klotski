@@ -10,6 +10,7 @@ ARR_matrixSize = [3, 4, 5, 6, 7] #方陣大小
 ARR_quizMove = [15, 30, 60, 105, 165] #題目移動次數
 matrixSize = ARR_matrixSize[level]
 quizMove = ARR_quizMove[level]
+moveTimes = 0 #使用者移動次數
 QUIZ_Matrix = [] #題目
 GOAL_Matrix = [] #答案
 GAME_FINISH = False #遊戲是否完成
