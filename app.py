@@ -10,9 +10,45 @@ ARR_matrixSize = [3, 4, 5, 6, 7] #方陣大小
 ARR_quizMove = [15, 30, 60, 105, 165] #題目移動次數
 matrixSize = ARR_matrixSize[level]
 quizMove = ARR_quizMove[level]
-moveTimes = 0 #使用者移動次數
 QUIZ_Matrix = [] #題目
 GOAL_Matrix = [] #答案
+GAME_FINISH = False #遊戲是否完成
+GAME_TIMES = 0 #使用者移動次數
+
+def keyboardPress(key): #偵測按鍵按下
+	global QUIZ_Matrix, GOAL_Matrix, GAME_TIMES, GAME_FINISH
+	try:
+		KEYBOARD_INUT = key.char
+	except AttributeError: # 特殊按鍵
+		KEYBOARD_INUT = key
+	if KEYBOARD_INUT == 'w':
+		success, QUIZ_Matrix = moveMatrix("up", QUIZ_Matrix)
+	elif KEYBOARD_INUT == 's':
+		success, QUIZ_Matrix = moveMatrix("down", QUIZ_Matrix)
+	elif KEYBOARD_INUT == 'a':
+		success, QUIZ_Matrix = moveMatrix("left", QUIZ_Matrix)
+	elif KEYBOARD_INUT == 'd':
+		success, QUIZ_Matrix = moveMatrix("right", QUIZ_Matrix)
+	else:
+		success = False
+	if success:
+		GAME_TIMES += 1
+	print("Moves:", GAME_TIMES)
+	showMatrix(QUIZ_Matrix)
+
+	if arraySame(QUIZ_Matrix, GOAL_Matrix):
+		GAME_FINISH = True
+		return False
+
+def keyboardRelease(key): #偵測按鍵放開
+	global GAME_FINISH
+	try:
+		KEYBOARD_INUT = key.char
+	except AttributeError: # 特殊按鍵
+		KEYBOARD_INUT = key
+	if KEYBOARD_INUT == 'q':
+		GAME_FINISH = False
+		return False
 
 def swap(a, b): #內容互換
 	t=a
@@ -133,10 +169,6 @@ print("== GAME START ==")
 showMatrix(QUIZ_Matrix) # 顯示題目
 startTime = datetime.now()
 isFinish = True
-TRANS_CHAR = {
-	'w':'up','s':'down','a':'left','d':'right', 
-	'W':'up','S':'down','A':'left','D':'right',
-}
 
 # 開始遊戲
 while not arraySame(QUIZ_Matrix, GOAL_Matrix):
@@ -160,8 +192,8 @@ endTime = datetime.now()
 time_s = (endTime - startTime).seconds
 time_ms = (endTime - startTime).microseconds
 fullsec = time_s + float(str("0.%d" %(time_ms)))
-if isFinish:
-	print("Congratulation! you move %d times to finish this game." %(moveTimes))
+if GAME_FINISH:
+	print("Congratulation! you move %d times to finish this game." %(GAME_TIMES))
 else:
 	print("You are not finish yet!")
 print('Spend Time (sec):', "%.3fms" %(fullsec))
