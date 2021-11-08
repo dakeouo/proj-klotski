@@ -1,5 +1,4 @@
 # 數字華容道 Digital Klotski
-import numpy as np
 import random
 from datetime import datetime
 
@@ -9,7 +8,13 @@ def num2FormatStr(digits, prefix, num): #數字轉含前綴字串
 	while len(result) < digits:
 		result = "%s%s" %(prefix, result)
 	return result
-
+def makeSpecMatrix(m_size, last_item):
+	result = []
+	for i in range(1,(m_size**2)+1):
+		result.append(i)
+	result = result[:-1]
+	result.append(0)
+	return result
 class DigitalKlotski(object):
 	List_LevelName = ('Easy', 'Normal', 'Difficult', 'Hard', 'Expert') # 等級名稱
 	List_MatrixSize = (3, 4, 5, 6, 7) # 方陣大小
@@ -28,8 +33,7 @@ class DigitalKlotski(object):
 			"QuizMoves": self.List_QuizMoves[level]
 		}
 		# 建立華容道
-		self.Config["Matrix_Goal"] = np.arange(1,(self.Config["MatrixSize"]**2)+1)
-		self.Config["Matrix_Goal"] = np.append(self.Config["Matrix_Goal"][:-1],0)
+		self.Config["Matrix_Goal"] = makeSpecMatrix(self.Config["MatrixSize"],0)
 		self.Config["Matrix_Quiz"] = self.Config["Matrix_Goal"].copy()
 		self.makeQuizMatrix()
 
