@@ -1,0 +1,155 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+body {
+	-webkit-font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+	-moz-font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+	-ms-font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+	-o-font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+	font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+}
+header {
+	margin: 0 auto;
+	width: 95vw;
+	max-width: 800px;
+	height: 3.1em;
+	padding: 0.2em;
+	background-color: #ccc;
+}
+header table{
+	position: relative;
+	margin: -1em auto;
+}
+header table th{
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+}
+header table h1#header-title{
+	font-size: 1.8em;
+}
+header img#icon {
+	width: 2.8em;
+}
+
+div#content {
+	margin: 0 auto;
+	text-align: center;
+	width: 90vw;
+	max-width: 760px;
+	padding: 0.3em;
+}
+
+footer{
+	margin: 0 auto;
+	width: 95vw;
+	max-width: 800px;
+	height: 3.5em;
+	padding: 0.2em;
+	background-color: #ccc;
+	text-align: center;
+	font-size: 0.7em;
+}
+footer div{
+	margin-top: 0.15em;
+}
+footer a{
+	text-decoration:none;
+	color: #a44;
+}
+footer a:hover{
+	text-decoration:underline;
+	color: #666;
+}
+div.link-btn {
+	margin: 0 auto;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	width: 80%;
+	height: 2em;
+	padding: 0.3em;
+	border-radius: 1em;
+}
+div.link-btn a {
+	text-decoration:none;
+	font-size: 1.4em;
+	color: #fff;
+}
+div.link-btn a:hover {
+	font-weight: 550;
+}
+
+label#subtitle{
+	font-size: 1.5em;
+	font-weight: 450;
+	color: #222;
+}
+table.gameboard, table.gameblock, table.gamebutton{
+	margin: 0.1em auto;
+	width: 100%;
+	/*background-color: #ddd;*/
+}
+table.gameblock{
+	height: 60vh;
+	min-height: 380px;
+}
+table.gameboard th{
+	width: 50%;
+	border: 0.2em #fff solid;
+	padding: 0.1em 0.5em;
+	text-align: left;
+	font-size: 1.2em;
+	background-color: #ccc;
+}
+table.gameblock td{
+	border: 0.01em #fff solid;
+}
+table.gameblock td a{
+	text-decoration:none;
+	color: white;
+}
+table.gamebutton td#home-btn, 
+table.gamebutton td#start-btn,
+table.gamebutton td#stop-btn,
+table.gamebutton td#pause-btn{
+	width: 50%;
+	border: 0.1em #fff solid;
+	border-radius: 1em;
+}
+table.gamebutton td#home-btn{
+	background-color: #308cdb;
+}
+table.gamebutton td#start-btn{
+	background-color: #56dd3e;
+}
+table.gamebutton td#stop-btn{
+	background-color: #db2120;
+}
+table.gamebutton td#pause-btn{
+	background-color: #db7e10;
+}
+table.gamebutton td a{
+	text-decoration:none;
+	font-size: 1.2em;
+	color: white;
+}
+table.gamebutton td a:hover{
+	font-weight: 550;
+}
+table.gamebutton td#home-btn:hover, 
+table.gamebutton td#start-btn:hover,
+table.gamebutton td#stop-btn:hover,
+table.gamebutton td#pause-btn:hover{
+	background-color: #666;
+}
+
+.lv-Easy{background-color: #e96060; color: #fff;}
+.lv-Normal{background-color: #fba24f; color: #fff;}
+.lv-Difficult{background-color: #78d237; color: #fff;}
+.lv-Hard{background-color: #2d73f5; color: #fff;}
+.lv-Expert{background-color: #b06dad; color: #fff;}
+
+div.lv-Easy:hover,div.lv-Normal:hover,
+div.lv-Difficult:hover,div.lv-Hard:hover,
+div.lv-Expert:hover{background-color: #666;}
+
+table.gameblock td.lv-Easy:hover,table.gameblock td.lv-Normal:hover,
+table.gameblock td.lv-Difficult:hover,table.gameblock td.lv-Hard:hover,
+table.gameblock td.lv-Expert:hover{background-color: #666;}

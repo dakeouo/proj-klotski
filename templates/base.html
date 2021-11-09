@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="{{ url_for('static', filename='img/numbers.png') }}" type="image/x-icon" / >
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+	<title>{% block title %}{% endblock %} - Digital Klotski</title>
+</head>
+<body>
+	<header>
+		<table><tr>
+			<th><img src="{{ url_for('static', filename='img/numbers.png') }}" id="icon"></th>
+			<th><h1 id="header-title">Digital Klotski</h1></th>
+		</tr></table>
+	</header>
+	<div id="content">
+		{% block content %}{% endblock %}
+	</div>
+	<footer>
+		<div>
+			Apps made by L.J. Hong. | Source code from <a href="https://github.com/dakeouo/proj-klotski-app" title="Github">Github</a>
+		</div>
+		<div>
+			Icons made by <a href="https://www.flaticon.com/authors/surang" title="surang">surang</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+		</div>
+	</footer>
+</body>
+</html>
