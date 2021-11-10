@@ -12,11 +12,14 @@
 	{% elif (games.state | int) == 2 %}
 	<td id="stop-btn"><a href="/gamectl/stop/{{ config.lvid }}">Stop</a></td>
 	<td id="start-btn"><a href="/gamectl/start/{{ config.lvid }}">Start</a></td>
-	{% endif%}
+	{% elif (games.state | int) == 3 %}
+	<td id="home-btn"><a href="/">Home</a></td>
+	<td id="restart-btn"><a href="/gamectl/restart/{{ config.lvid }}">Restart</a></td>
+	{% endif %}
 </tr></table>
 <table class="gameboard"><tr>
 	<th><label>Moves: {{ games.movetimes }}</label></th>
-	<th><label>Times: 00:00'000</label></th>
+	<th><label id="games_timer">Times: {{ games.showtimes }}</label></th>
 </tr></table>
 {% if (games.state | int) == 0 %}
 	<table class="gameblock"><tr>
@@ -28,13 +31,13 @@
 {% elif (games.state | int) == 1 %}
 	<table class="gameblock">
 	{% for i in range(config.Size**2 | int) %}
-		{% if i%(config.Size | int) == 0 %}<tr>{% endif%}
+		{% if i%(config.Size | int) == 0 %}<tr>{% endif %}
 		{% if (config.Quiz[i] | int) == 0 %}
 		<td id="empty" style="width:{{ (100/(config.Size | int) | int) }}%;height:{{ (100/(config.Size | int) | int) }}%;background-color: #ccc"></td>
 		{% else %}
 		<td class="lv-{{ config.Level }}" style="width:{{ (100/(config.Size | int) | int) }}%;height:{{ (100/(config.Size | int) | int) }}%;font-size: {{ (5-0.6*((config.Size | int)-2) | int) }}em;"><a href="/blocks/{{ config.Quiz[i] }}/{{ config.lvid }}">{{ config.Quiz[i] }}</a></td>
-		{% endif%}
-		{% if i%(config.Size | int) == (config.Size | int)-1 %}</tr>{% endif%}
+		{% endif %}
+		{% if i%(config.Size | int) == (config.Size | int)-1 %}</tr>{% endif %}
 	{% endfor %}
 	</table>
 {% elif (games.state | int) == 2 %}
@@ -44,5 +47,48 @@
 			Press 'Start' button<br />to continue this game !
 		</td>
 	</tr></table>
-{% endif%}
+{% elif (games.state | int) == 3 %}
+	<table class="gameblock"><tr>
+		<td style="width: 100%; height: 100%; background-color: #ddd; color: #444; font-size: 2em;">
+			<label style="font-size: 1.2em; font-weight: 550;">Congratulation</label><br />
+			You Finish this game!<br />
+			SpendTime: {{ games.showtimes | string }}<br />
+			MoveTimes: {{ games.movetimes }} time(s)<br />
+		</td>
+	</tr></table>
+{% endif %}
+{% endblock %}
+{% block script %}
+<script>
+	var GAME_TIMER = {{ (games.timer | float)*10 }};
+	var GAME_STATE = {{ games.state }};
+	var showGameTimer = "";
+	var msec = parseInt(GAME_TIMER%10);
+	var sec = parseInt((GAME_TIMER/10)%60);
+	var min = parseInt((GAME_TIMER/10)/60);
+	var gameTimer = setInterval(function() {
+		if (GAME_STATE == 1){
+			if (msec >= 9){
+				if (sec >= 59){
+					min += 1;
+					sec = 0;
+				}else{
+					sec += 1;
+					msec = 0;
+				}
+			}else{
+				msec += 1;
+			}
+		}
+		showGameTimer = 'Times: '+paddingLeft(min.toString(),2)+":"+paddingLeft(sec.toString(),2)+"."+msec;
+		document.getElementById("games_timer").innerHTML = showGameTimer;
+	}, 100);
+	function paddingLeft(str,lenght){
+		if(str.length >= lenght){
+			return str;
+		}else{
+			return paddingLeft("0"+str,lenght);
+		}
+	}
+</script>
 {% endblock %}

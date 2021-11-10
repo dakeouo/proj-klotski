@@ -108,7 +108,8 @@ table.gameblock td a{
 table.gamebutton td#home-btn, 
 table.gamebutton td#start-btn,
 table.gamebutton td#stop-btn,
-table.gamebutton td#pause-btn{
+table.gamebutton td#pause-btn,
+table.gamebutton td#restart-btn{
 	width: 50%;
 	border: 0.1em #fff solid;
 	border-radius: 1em;
@@ -125,6 +126,9 @@ table.gamebutton td#stop-btn{
 table.gamebutton td#pause-btn{
 	background-color: #db7e10;
 }
+table.gamebutton td#restart-btn{
+	background-color: #dbab2e;
+}
 table.gamebutton td a{
 	text-decoration:none;
 	font-size: 1.2em;
@@ -136,7 +140,8 @@ table.gamebutton td a:hover{
 table.gamebutton td#home-btn:hover, 
 table.gamebutton td#start-btn:hover,
 table.gamebutton td#stop-btn:hover,
-table.gamebutton td#pause-btn:hover{
+table.gamebutton td#pause-btn:hover,
+table.gamebutton td#restart-btn:hover{
 	background-color: #666;
 }
 
