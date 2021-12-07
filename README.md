@@ -1,6 +1,8 @@
 # klotski-app
 數字華容道 (Digital Klotski)
 
+網頁瀏覽：[連結1 (GCP Cloud Run)](https://klotski-app-z6dnupszra-de.a.run.app/) / [連結2 (AWS Fargate)](http://3.19.59.200:5000/)
+
 ## [Stage1] Python
 ### Prepare
 Docker Image Version: 1.x
